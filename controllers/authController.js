@@ -1,5 +1,4 @@
 const User = require("../models/User");
-const Task = require("../models/Task");
 const jwt = require('jsonwebtoken');
 
 const handleErrors = (err) => {
@@ -80,16 +79,4 @@ module.exports.profile_put = async (req, res) => {
 module.exports.logout_get = (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 });
   res.redirect('/');
-}
-
-module.exports.task_post = async (req, res) => {
-  console.log(req.body);
-  const { description, date, completed } = req.body;
-  try {
-    await Task.findOneAndUpdate({ email: email }, { description, date, completed });
-
-  } catch (err) {
-    res.status(400).json({ errors: "Task Could not be updated" });
-  }
-
 }
