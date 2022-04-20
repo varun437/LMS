@@ -1,0 +1,65 @@
+<%- include('partials/header'); -%>
+   <h1 style="text-align: center;">TASKS</h1>
+  <div id="id01" class="modal">
+  
+    <form class="modal-content animate" action="/task">
+      <div class="container">
+        <label for="taskname">TASK NAME:</label>
+        <input type="text" name="taskname" required />
+        <div class="taskname error"></div>
+        <br>
+        <label for="completed">COMPLETED OR NOT:</label>
+        <select name="completion" id="completion" required>
+          <option value="true">TRUE</option>
+          <option value="false">FALSE</option>
+        </select>
+        <div class="completed error"></div>
+        <br>
+
+        <label for="date">DEADLINE</label>
+        <input type="date" name="date" required />
+        <div class="date error"></div>
+      </div>
+        <button>submit</button>
+    </form>
+  </div>
+
+
+
+  <%- include('partials/footer'); -%>
+
+    <script>
+      const form = document.querySelector('form');
+      const tasknameError = document.querySelector('.taskname.error');
+      const completedError = document.querySelector('.completed.error');
+      const dateError = document.querySelector('.date.error');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        tasknameError.textContent = '';
+        completedError.textContent = "";
+        dateError.textContent = "";
+        const taskname = form.taskname.value;
+        const completed = form.completed.value;
+        const date = form.date.value;
+
+        try {
+          const res = await fetch('/task', {
+            method: 'POST',
+            body: JSON.stringify({ taskname, completed, date }),
+            headers: { 'Content-Type': 'application/json' }
+          });
+          const data = await res.json();
+          if (data.errors) {
+            tasknameError.textContent = data.errors.taskname;
+            completedError.textContent = data.errors.completed;
+            dateError.textContent = data.errors.date;
+          }
+          if (data.user) {
+            location.assign('/');
+          }
+        }
+        catch (err) {
+          console.log(err);
+        }
+      });
+    </script>
