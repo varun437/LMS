@@ -4,9 +4,9 @@ const taskSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"
     },
-    description: {
+    taskname: {
         type: String,
-        required: [true, 'Enter the description...'],
+        required: [true, 'Enter the taskanme'],
         lowercase: true,
     },
     completed: {
