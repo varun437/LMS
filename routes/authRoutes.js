@@ -7,4 +7,5 @@ router.get('/login', authController.login_get);
 router.post('/login', authController.login_post);
 router.put('/profile', authController.profile_put);
 router.get('/logout', authController.logout_get);
+router.post("/task", authController.task_post);
 module.exports = router;
